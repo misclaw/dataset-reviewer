@@ -10,7 +10,6 @@ Usage:  python3 data-gen/ship_chunks.py
 """
 import gzip
 import json
-import shutil
 import sys
 from pathlib import Path
 
@@ -44,8 +43,12 @@ def main() -> int:
 
     print(f"{n:,} records · gzipping…", flush=True)
     gz = SLIM.with_suffix(".jsonl.gz")
-    with open(SLIM, "rb") as fin, gzip.open(gz, "wb", compresslevel=9) as fout:
-        shutil.copyfileobj(fin, fout)
+    # Deterministic gzip (mtime=0, no embedded filename) so an unchanged corpus
+    # produces byte-identical output — the daily job's git diff stays empty and
+    # we don't accrue no-op commits.
+    raw = SLIM.read_bytes()
+    with open(gz, "wb") as out, gzip.GzipFile(fileobj=out, mode="wb", compresslevel=9, mtime=0) as gzf:
+        gzf.write(raw)
 
     meta_path = DATA / "meta.json"
     meta = json.loads(meta_path.read_text())
