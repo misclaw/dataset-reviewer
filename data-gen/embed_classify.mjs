@@ -22,7 +22,16 @@ import { embedDocs, quantizeInt8, dequantize, cosine, docText, int8ToB64, b64ToI
 const CORPUS = path.join(os.homedir(), "research", "dataset-corpus", "papers.jsonl");
 const CACHE = new URL("emb_cache.jsonl", import.meta.url).pathname;
 const PROTO = new URL("prototypes.json", import.meta.url).pathname;
-const THRESHOLD = parseFloat(process.env.DS_THRESHOLD || "0.05");
+// Inclusion rule for arXiv candidates (tuned on a 50-paper hand-labeled sample,
+// ~100% precision / ~90% recall): a dataset/benchmark token in the TITLE plus a
+// non-negative prototype margin, OR a high prototype margin on its own. The
+// title token is the dominant signal; the prototype score (kept as the displayed
+// confidence) acts as a sign check and catches the title-less high scorers.
+const TITLE_FLOOR = parseFloat(process.env.DS_TITLE_FLOOR || "0.0");
+const SCORE_HIGH = parseFloat(process.env.DS_SCORE_HIGH || "0.08");
+const TITLE_WORD = /\b(?:bench(?:mark(?:s|ing)?)?|datasets?|corpus|corpora|treebank|databank|testset|test set|evaluation suite)\b/i;
+const TITLE_SUFFIX = /[\w-](?:Bench|Benchmark|Gym|Eval|Suite|Corpus|Dataset)\b/; // CamelCase: RedactionBench, SkillChain-Gym
+const titleToken = (t) => TITLE_WORD.test(t || "") || TITLE_SUFFIX.test(t || "");
 const BATCH = 64;
 const rescore = process.argv.includes("--rescore");
 const force = process.argv.includes("--force");
@@ -88,7 +97,7 @@ for (const p of papers) {
   const v = dequantize(int8);
   const score = maxCos(v, posF) - maxCos(v, negF);
   p.dataset_score = Math.round(score * 1e4) / 1e4;
-  p.is_dataset_paper = score >= THRESHOLD;
+  p.is_dataset_paper = (titleToken(p.title) && score >= TITLE_FLOOR) || score >= SCORE_HIGH;
   scored++;
   if (p.is_dataset_paper) kept++;
 }
@@ -96,5 +105,5 @@ writeCorpus(papers);
 
 const venue = papers.filter(isVenue).length;
 const datasetPapers = papers.filter((p) => p.is_dataset_paper).length;
-console.log(`scored ${scored} candidates (threshold ${THRESHOLD}; kept ${kept})`);
+console.log(`scored ${scored} candidates (title-token & score>=${TITLE_FLOOR}, or score>=${SCORE_HIGH}; kept ${kept})`);
 console.log(`corpus: ${papers.length} papers · ${venue} venue · ${datasetPapers} is_dataset_paper=true`);
