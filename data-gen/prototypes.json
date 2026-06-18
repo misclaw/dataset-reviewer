@@ -1,0 +1,20 @@
+{
+  "_comment": "Stage-2 (precision) of the hybrid dataset-paper classifier. Each candidate abstract is embedded with bge-small (doc-side, no query prefix) and scored: dataset_score = max cosine to a positive prototype minus max cosine to a negative prototype. Papers above DS_THRESHOLD (margin) are kept. Positives describe 'this paper contributes a dataset/benchmark resource'; negatives describe 'this paper proposes a method and merely uses datasets'. Edit these to retune precision; re-run embed_classify.mjs --rescore afterwards.",
+  "positive": [
+    "We introduce a new dataset for training and evaluating models on this task.",
+    "We present a new benchmark for evaluating model performance across diverse tasks.",
+    "We release a large-scale, human-annotated corpus collected and labeled for this problem.",
+    "In this paper we construct and publicly release a dataset of labeled examples.",
+    "We propose a new benchmark with thousands of examples spanning multiple domains and languages.",
+    "This paper contributes a publicly available dataset with detailed annotations and an evaluation protocol.",
+    "We build an evaluation suite and leaderboard to benchmark systems on this capability."
+  ],
+  "negative": [
+    "We propose a new neural network architecture that improves accuracy on existing benchmarks.",
+    "We use standard datasets to train and evaluate our proposed model.",
+    "We prove a theoretical bound on the convergence of our optimization algorithm.",
+    "We present a new method that achieves state-of-the-art results on several established datasets.",
+    "We survey recent advances and summarize open challenges in the field.",
+    "We analyze the behavior of large language models and report empirical findings."
+  ]
+}

@@ -1,0 +1,157 @@
+/* Dataset Reviewer — anchored on the misclaw design language (system font,
+   blue #3b5bdb light / #7c9cff dark). Light by default; dark via prefers-color
+   or an explicit [data-theme]. Verified at ~390px. */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f7f8fa;
+  --surface-2: #eef0f3;
+  --text: #1a1c1f;
+  --muted: #5f6571;
+  --faint: #8b909b;
+  --accent: #3b5bdb;
+  --accent-soft: #e7ecfb;
+  --border: #e3e6ea;
+  --shadow: 0 1px 2px rgba(20, 22, 28, 0.05), 0 4px 16px rgba(20, 22, 28, 0.04);
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0c0e; --surface: #15171a; --surface-2: #1d2024;
+    --text: #e8eaed; --muted: #9aa0a6; --faint: #6b7178;
+    --accent: #7c9cff; --accent-soft: #1c2740; --border: #25282d;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+}
+:root[data-theme="light"] {
+  --bg: #ffffff; --surface: #f7f8fa; --surface-2: #eef0f3;
+  --text: #1a1c1f; --muted: #5f6571; --faint: #8b909b;
+  --accent: #3b5bdb; --accent-soft: #e7ecfb; --border: #e3e6ea;
+  --shadow: 0 1px 2px rgba(20, 22, 28, 0.05), 0 4px 16px rgba(20, 22, 28, 0.04);
+}
+:root[data-theme="dark"] {
+  --bg: #0b0c0e; --surface: #15171a; --surface-2: #1d2024;
+  --text: #e8eaed; --muted: #9aa0a6; --faint: #6b7178;
+  --accent: #7c9cff; --accent-soft: #1c2740; --border: #25282d;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- header ---- */
+.site-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 1rem; max-width: 920px; margin: 0 auto; padding: 1.6rem 1.25rem 0.5rem;
+}
+.brand h1 { margin: 0; font-size: 1.5rem; letter-spacing: -0.03em; }
+.tagline { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.9rem; max-width: 46ch; }
+.header-nav { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.icon-btn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  width: 34px; height: 34px; border-radius: 9px; cursor: pointer; font-size: 1rem;
+}
+.icon-btn:hover { background: var(--surface-2); }
+.home-link { font-size: 0.85rem; color: var(--muted); }
+
+/* ---- app shell ---- */
+.app { max-width: 920px; margin: 0 auto; padding: 0.5rem 1.25rem 3rem; }
+
+.searchbar {
+  position: sticky; top: 0; z-index: 5; padding: 0.75rem 0;
+  background: linear-gradient(var(--bg) 70%, transparent);
+}
+.q {
+  width: 100%; font-size: 1.05rem; padding: 0.8rem 1rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text); outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.q:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.q::placeholder { color: var(--faint); }
+
+.conf-toggle {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.85rem; color: var(--muted); margin: 0.1rem 0 0.4rem; cursor: pointer;
+}
+.conf-toggle.hidden { display: none; }
+
+/* ---- facets ---- */
+.facets { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.3rem 0 0.6rem; }
+.facet { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+.facet-label {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--faint); min-width: 64px; font-weight: 600;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.82rem; padding: 0.2rem 0.6rem; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  cursor: pointer; transition: background 0.12s, border-color 0.12s;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip .n { font-size: 0.72rem; color: var(--faint); }
+.chip.on .n { color: rgba(255, 255, 255, 0.8); }
+
+/* ---- summary ---- */
+.summary { font-size: 0.85rem; color: var(--muted); margin: 0.5rem 0 0.75rem; }
+.summary .expansion { color: var(--faint); }
+
+/* ---- result list ---- */
+.list { display: flex; flex-direction: column; gap: 0.85rem; }
+.empty { color: var(--muted); padding: 2rem 0; text-align: center; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow);
+}
+.card-head { display: flex; align-items: baseline; gap: 0.6rem; }
+.rel {
+  flex-shrink: 0; font-variant-numeric: tabular-nums; font-size: 0.78rem;
+  font-weight: 600; color: var(--accent); background: var(--accent-soft);
+  padding: 0.1rem 0.4rem; border-radius: 6px;
+}
+.title { font-size: 1.04rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.35; }
+.card-meta { color: var(--muted); font-size: 0.85rem; margin-top: 0.3rem; }
+.card-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.55rem; }
+.tag {
+  font-size: 0.74rem; padding: 0.12rem 0.5rem; border-radius: 6px;
+  background: var(--surface-2); color: var(--muted); border: 1px solid var(--border);
+}
+.tag.modality { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+.card-body { margin-top: 0.55rem; }
+.abstract { margin: 0; font-size: 0.9rem; color: var(--text); opacity: 0.92; }
+.more {
+  border: none; background: none; color: var(--accent); cursor: pointer;
+  font-size: 0.85rem; padding: 0; margin-left: 0.2rem;
+}
+.card-links {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem;
+  margin-top: 0.7rem; font-size: 0.83rem;
+}
+.card-links .added { color: var(--faint); margin-left: auto; font-size: 0.78rem; }
+
+/* ---- footer ---- */
+.site-footer {
+  max-width: 920px; margin: 0 auto; padding: 2rem 1.25rem;
+  display: flex; justify-content: space-between; gap: 1rem;
+  color: var(--faint); font-size: 0.8rem; border-top: 1px solid var(--border);
+}
+
+@media (max-width: 540px) {
+  .site-header { flex-direction: column; gap: 0.5rem; padding-top: 1.1rem; }
+  .app { padding: 0.25rem 0.9rem 2.5rem; }
+  .facet-label { min-width: 100%; margin-bottom: -0.1rem; }
+  .card-links .added { margin-left: 0; width: 100%; }
+  .site-footer { flex-direction: column; gap: 0.4rem; }
+}

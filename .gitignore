@@ -5,3 +5,9 @@ dist/
 *.log
 .env
 .env.*
+
+# data-gen staging (regenerated locally; only public/data/* is shipped)
+data-gen/emb_cache.jsonl
+data-gen/papers.slim.jsonl
+data-gen/papers.slim.jsonl.gz
+data-gen/_*

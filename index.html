@@ -3,19 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dataset Reviewer — misclaw</title>
-    <style>
-      body { margin: 0; min-height: 100vh; display: grid; place-items: center;
-        font-family: -apple-system, system-ui, sans-serif; background: #0b0c0e;
-        color: #e8eaed; text-align: center; padding: 2rem; }
-      h1 { letter-spacing: -0.03em; } p { color: #9aa0a6; } a { color: #7c9cff; }
-    </style>
+    <title>Dataset Reviewer — find ML & NLP datasets by meaning</title>
+    <meta name="description" content="Search newly-proposed machine-learning and NLP datasets and benchmarks by meaning. Updated daily. Runs entirely in your browser." />
+    <script>
+      // Apply saved theme before paint to avoid a flash.
+      try {
+        const t = localStorage.getItem("theme");
+        if (t) document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
   </head>
   <body>
-    <main>
-      <h1>Dataset Reviewer</h1>
-      <p>Find newly-proposed ML & NLP datasets and benchmarks by semantic search, updated daily.</p>
-      <p><a href="https://misclaw.app">← misclaw.app</a></p>
-    </main>
+    <header class="site-header">
+      <div class="brand">
+        <h1>Dataset Reviewer</h1>
+        <p class="tagline">Newly-proposed ML &amp; NLP datasets &amp; benchmarks — searchable by meaning, updated daily.</p>
+      </div>
+      <nav class="header-nav">
+        <button id="theme-toggle" class="icon-btn" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+        <a class="home-link" href="https://misclaw.app">misclaw ↗</a>
+      </nav>
+    </header>
+    <main id="app" class="app"></main>
+    <footer class="site-footer">
+      <span>No server, no accounts — search runs in your browser over shipped embeddings.</span>
+      <a href="https://github.com/misclaw/dataset-reviewer">source</a>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
