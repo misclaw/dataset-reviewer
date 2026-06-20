@@ -6,11 +6,16 @@
     <title>Dataset Reviewer — find ML & NLP datasets by meaning</title>
     <meta name="description" content="Search newly-proposed machine-learning and NLP datasets and benchmarks by meaning. Updated daily. Runs entirely in your browser." />
     <script>
-      // Apply saved theme before paint to avoid a flash.
-      try {
-        const t = localStorage.getItem("theme");
-        if (t) document.documentElement.dataset.theme = t;
-      } catch {}
+      // Shared misclaw theme: a cookie scoped to .misclaw.app keeps the
+      // light/dark choice in sync across every *.misclaw.app site; localStorage
+      // is the same-origin fallback (local dev). Read before paint to avoid a flash.
+      (function () {
+        try {
+          var m = document.cookie.match(/(?:^|;\s*)mc-theme=(light|dark)\b/);
+          var t = m ? m[1] : (localStorage.getItem("theme") || localStorage.getItem("refmap-theme"));
+          if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
     </script>
   </head>
   <body>
