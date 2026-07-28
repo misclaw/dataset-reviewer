@@ -1,23 +1,23 @@
 {
   "model": "Xenova/bge-small-en-v1.5",
   "dim": 384,
-  "count": 2102,
+  "count": 2114,
   "quant": "int8/127",
   "normalized": true,
   "query_prefix": "Represent this sentence for searching relevant passages: ",
   "files": {
     "papers.slim.jsonl.gz": {
       "parts": 1,
-      "size": 1242662,
+      "size": 1250486,
       "part_sizes": [
-        1242662
+        1250486
       ]
     },
     "emb_int8.bin": {
       "parts": 1,
-      "size": 807168,
+      "size": 811776,
       "part_sizes": [
-        807168
+        811776
       ]
     }
   }
