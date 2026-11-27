@@ -8,9 +8,9 @@
   "files": {
     "papers.slim.jsonl.gz": {
       "parts": 1,
-      "size": 2732480,
+      "size": 2732539,
       "part_sizes": [
-        2732480
+        2732539
       ]
     },
     "emb_int8.bin": {
